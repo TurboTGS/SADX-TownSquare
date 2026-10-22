@@ -126,6 +126,13 @@ void FILES_TownSquare()
 
 void INIT_Level()
 {
+	if (CS_Mode())
+	{
+		// Custom Stages: Lost World's slot is only taken while Town Square is played (customstages.cpp).
+		LoadLandTable(&LAND_TownSquare00, "TownSquare_Landtable", &TEXLIST_TownSquare);
+		return;
+	}
+
 	WriteData<5>((void*)0x422DEF, 0x90); // Disable DC Conversion Lost World
 	
 	LANDTABLE_TownSquare();

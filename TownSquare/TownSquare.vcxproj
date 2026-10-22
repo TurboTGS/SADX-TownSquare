@@ -147,6 +147,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="custom_stages_api.h" />
+    <ClInclude Include="customstages.h" />
     <ClInclude Include="deathzones.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="graphics.h" />
@@ -171,6 +173,7 @@
   <ItemGroup>
     <ClCompile Include="config\IniFile.cpp" />
     <ClCompile Include="config\TextConv.cpp" />
+    <ClCompile Include="customstages.cpp" />
     <ClCompile Include="deathzones.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="graphics.cpp" />

@@ -6,7 +6,7 @@ UsercallFunc(BOOL, CheckMissionRequirements_t, (int mission, int character, int 
 
 BOOL CheckMissionRequirements_r(int mission, int character, int level)
 {
-    if (CurrentLevel != LevelIDs_LostWorld)
+    if (!IsTownSquare())
         return CheckMissionRequirements_t.Original(mission, character, level);
 
     switch (mission)
@@ -135,7 +135,7 @@ void SD_GetMissionTypeCheck()
 
 void LoadStageMissionImage_r()
 {
-    if (CurrentLevel != LevelIDs_LostWorld)
+    if (!IsTownSquare())
     {
         MissionSpriteAnim.texid = 0;
         return LoadStageMissionImage_t.Original();
@@ -161,7 +161,7 @@ void LoadStageMissionImage_r()
 
 void LoadMissionCardResult_r()
 {
-    if (CurrentLevel != LevelIDs_LostWorld)
+    if (!IsTownSquare())
     {
         MissionSpriteAnim.texid = 0;
         return LoadMissionCardResult_t.Original();

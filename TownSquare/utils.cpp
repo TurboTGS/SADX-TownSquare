@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "custom_stages_api.h"
 
 //	Counters:
 
@@ -45,6 +46,19 @@ void CheckBASS()
 			L"ERROR! BASS for Music is turned off.\n\nThe music of this level won't play correctly.\n\nPlease exit the game, enable BASS for Music, then try again.",
 			L"Town Square: BASS Error", MB_OK | MB_ICONERROR);
 	}
+}
+
+
+//	File replacement (see utils.h):
+
+int TS_FileStage = -1;
+
+void TS_ReplaceFile(const char* src, const char* dst)
+{
+	if (TS_FileStage >= 0)
+		CustomStages::ReplaceFile(TS_FileStage, src, dst);
+	else
+		HelperFunctionsGlobal.ReplaceFile(src, dst);
 }
 
 

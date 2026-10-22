@@ -103,6 +103,9 @@ SoundTestEntry SoundTestEntry_TownSquare = { "Town Square:  Spyro the Dragon", 6
 
 void INIT_Graphics()
 {
+    if (CS_Mode())
+        return; // Custom Stages: Lost World's name, thumbnails, credits and sound test stay stock; title cards go with the stage (customstages.cpp)
+
     STAGENAMES_TownSquare();
     TITLECARDS_TownSquare();
     MULTITHUMBNAILS_TownSquare();

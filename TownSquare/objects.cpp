@@ -110,11 +110,14 @@ void LOAD_Objects()
 
 void INIT_Objects()
 {
-	ListofPvmList[LevelIDs_LostWorld] = TEXTURELIST_TownSquare;
+	if (!CS_Mode()) // Custom Stages: switched with the stage (customstages.cpp)
+	{
+		ListofPvmList[LevelIDs_LostWorld] = TEXTURELIST_TownSquare;
 
-	objItemTable[LevelIDs_LostWorld * 8] = &OBJECTLIST_TownSquare;
-	objItemTable[LevelIDs_LostWorld * 8 + 1] = &OBJECTLIST_TownSquare;
-	objItemTable[LevelIDs_LostWorld * 8 + 2] = &OBJECTLIST_TownSquare;
+		objItemTable[LevelIDs_LostWorld * 8] = &OBJECTLIST_TownSquare;
+		objItemTable[LevelIDs_LostWorld * 8 + 1] = &OBJECTLIST_TownSquare;
+		objItemTable[LevelIDs_LostWorld * 8 + 2] = &OBJECTLIST_TownSquare;
+	}
 
 	LOAD_Objects();
 

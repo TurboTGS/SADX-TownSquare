@@ -3,9 +3,14 @@
 //	Macros:
 
 #define ReplaceTEX(pvm, tex_name, folder, png_name, gbix, width, height) HelperFunctionsGlobal.ReplaceTexture(pvm, tex_name, (std::string(ModPath) + "\\textures\\" folder "\\" png_name ".png").c_str(), gbix, width, height);
-#define ReplaceBIN(a, b) HelperFunctionsGlobal.ReplaceFile("system\\" a ".BIN", "system\\" b ".BIN");
-#define ReplacePVR(a, b) HelperFunctionsGlobal.ReplaceFile("system\\" a ".PVR", b);
-#define ReplaceBGM(a, b) HelperFunctionsGlobal.ReplaceFile("system\\sounddata\\bgm\\wma\\" a ".WMA", "system\\" b ".ADX");
+#define ReplaceBIN(a, b) TS_ReplaceFile("system\\" a ".BIN", "system\\" b ".BIN");
+#define ReplacePVR(a, b) TS_ReplaceFile("system\\" a ".PVR", b);
+#define ReplaceBGM(a, b) TS_ReplaceFile("system\\sounddata\\bgm\\wma\\" a ".WMA", "system\\" b ".ADX");
+
+//	File replacement: through SADX Custom Stages while TS_FileStage is a stage (customstages.cpp), else the loader.
+
+extern int TS_FileStage;
+void TS_ReplaceFile(const char* src, const char* dst);
 
 
 //	Counters:

@@ -13,6 +13,7 @@ extern "C"
 		HelperFunctionsGlobal = helperFunctions;
 
 		CheckActiveMods();
+		CS_Detect(); // SADX Custom Stages enabled? (customstages.h)
 		CheckBASS();
 		ExpandDrawQueueMemoryPool();
 
@@ -24,6 +25,7 @@ extern "C"
 		INIT_LevelRanks();
 		INIT_Objects();
 		INIT_Graphics();
+		INIT_CustomStages();
 	}
 
 	__declspec(dllexport) ModInfo SADXModInfo = { ModLoaderVer };

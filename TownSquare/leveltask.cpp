@@ -40,7 +40,7 @@ static FunctionHook<void, int>RunLevelDestructor_t(RunLevelDestructor);
 
 void __cdecl RunLevelDestructor_r(int heap)
 {
-	if (heap == 0 && CurrentLevel == LevelIDs_LostWorld)
+	if (heap == 0 && IsTownSquare())
 		DragonCount = 0;
 
 	return RunLevelDestructor_t.Original(heap);
@@ -50,10 +50,13 @@ void __cdecl RunLevelDestructor_r(int heap)
 
 void INIT_LevelTask()
 {
+	RunLevelDestructor_t.Hook(RunLevelDestructor_r); // Init Level Destructor Funchook.
+
+	if (CS_Mode())
+		return; // Custom Stages: switched with the stage (customstages.cpp)
+
 	RoundMasterList[LevelIDs_LostWorld] = RD_TownSquare; // Level Task.
 	ScrollMasterList[LevelIDs_LostWorld] = BG_TownSquare; // Skybox Task.
-
-	RunLevelDestructor_t.Hook(RunLevelDestructor_r); // Init Level Destructor Funchook.
 
 	WriteData<10>((void*)0x434A19, 0x90); // Remove "No Free-Cam" boxes in Lost World Act 2.
 }

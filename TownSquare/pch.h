@@ -22,5 +22,6 @@
 	#include "levelranks.h"
 	#include "objects.h"
 	#include "utils.h"
+	#include "customstages.h"
 
 #endif
