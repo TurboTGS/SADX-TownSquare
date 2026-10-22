@@ -30,6 +30,17 @@
 //     // No Custom Stages: replace the level as before (or don't load).
 //   }
 //
+// With API 2 a stage can also have missions (C, B, A) with its own emblems,
+// records and (with SADX Ranks) ranks:
+//
+//     info.missions = 3;                 // C, B and A
+//     info.ringsB = 100;                 // B: 100 rings
+//     info.timeA = 150;                  // A: within 2:30
+//     info.rankBasis[CustomStages::MissionA] = CustomStages::RankByTime;
+//     // A's rank by time: D 5:00, C 4:00, B 3:00, A 2:30
+//     int a[4] = {300, 240, 180, 150};
+//     memcpy(info.rankRequirements[CustomStages::MissionA], a, sizeof a);
+//
 // and wherever your code checks the slot (CurrentLevel == LevelIDs_LostWorld),
 // also check CustomStages::IsActive(g_stage).
 //
@@ -48,7 +59,12 @@ struct PathDataPtr;
 
 namespace CustomStages {
 
-constexpr int ApiVersion = 1;
+constexpr int ApiVersion = 2;
+
+// Missions, in the order they unlock (as in SADX: C, then B, then A).
+enum Mission { MissionC = 0, MissionB = 1, MissionA = 2 };
+// What a mission's rank is worked out from (SADX Ranks, if it's installed).
+enum RankBasis { RankByScore = 0, RankByTime = 1 };
 
 struct StageInfo {
   int size = sizeof(StageInfo); // leave as is (lets the API grow)
@@ -60,6 +76,25 @@ struct StageInfo {
   void(__cdecl *onEnable)(int stage, void *user) = nullptr;
   void(__cdecl *onDisable)(int stage, void *user) = nullptr;
   void *user = nullptr;
+
+  // ---- API 2: missions, records, ranks --------------------------------------
+  // How many missions the stage has: 0 none, 1 C, 2 C and B, 3 C, B and A.
+  // C is clearing the stage, B collecting `ringsB` rings, A clearing within
+  // `timeA` seconds (Gamma: with at least `timeA` seconds left). The player
+  // picks an unlocked one on the Custom page (B after C, A after B); clearing
+  // it earns the stage's emblem for it. Each stage keeps its own emblems,
+  // high score, best time and most rings per character and save file; the
+  // host level's are never touched. Older (API 1) stages: 0.
+  int missions = 0;
+  int ringsB = 0; // 0 = the host level's own B requirement (Sonic: 50 rings)
+  int timeA = 0;  // 0 = the host level's own A requirement (its target time)
+  // Rank requirements per mission (index MissionC/B/A) for D, C, B and A, in
+  // that order; used by SADX Ranks if it's installed. RankByScore: the least
+  // final score, rising. RankByTime: the slowest clear time in seconds,
+  // falling (Gamma: the least time left, rising). All four 0 = SADX Ranks'
+  // requirements for the host level (sadx_ranks.ini).
+  int rankBasis[3] = {RankByScore, RankByScore, RankByScore};
+  int rankRequirements[3][4] = {};
 };
 
 inline unsigned Character(int character) { return character >= 0 && character < 32 ? 1u << character : 0u; }

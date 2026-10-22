@@ -150,6 +150,10 @@ static int Register(const char* key, int act, int character)
 	info.characters = CustomStages::Character(character);
 	info.onEnable = OnEnable;
 	info.onDisable = OnDisable;
+	// API 2: missions C, B and A with their own emblems and records; their
+	// requirements stay Town Square's own (levelranks.cpp hooks
+	// CheckMissionRequirements, which Custom Stages calls for B and A).
+	info.missions = 3;
 
 	return CustomStages::RegisterStage(info);
 }
